@@ -1,16 +1,42 @@
 
 #v001
 # base on the CamDissolve v007 and make it as nuke 12 version
+# need to able to create duplicated camera inside of the group
+# need to copy or link all the animation and knob from outside inside.
+# need to add the expression into the duplicated camera 
+# able to create new caemra 
+# able to Export project cam
+# able to export blend cam
+
+
+
+
+
+def getInputNodes(): # return the all input nods from this Node
+    
+    # 
+    group_node = nuke.thisNode()  
+    
+    if group_node:
+        # Get the input nodes connected to the Group node
+        input_nodes = group_node.dependencies()
+    
+        # Loop through the input nodes and print their names
+        for node in input_nodes:
+            print node.name()
+    else:
+        print 'error'
+
+    return input_nodes
 
 
 def CameraDissolve():
 
-    # select nodes
-    sNodes = nuke.selectedNodes()
     
-    # get the information from the selected Nodes
 
-
+    # get the dependencies node name 
+    sNodes = getInputNodes()
+    
 
     ## check error
 
