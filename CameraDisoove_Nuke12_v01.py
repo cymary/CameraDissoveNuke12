@@ -33,7 +33,7 @@ def getInputNodes(): # return the all input nods from this Node
 def CameraDissolve():
 
     import nukescripts
-
+    group_node = nuke.thisNode()
 
     # get the dependencies node name 
     sNodes = getInputNodes()
@@ -69,7 +69,8 @@ def CameraDissolve():
     
     # with group_node: # inside group node 
     with nuke.root():# create node on the root 
-        
+    
+        #create Dissolve camera
         nCamera = nuke.createNode('Camera2')
         
         nukescripts.remove_inputs() # this remove the input for selectedNode
@@ -85,7 +86,8 @@ def CameraDissolve():
         for n in nuke.allNodes():
             n.knob("selected").setValue(False) 
 
-        
+    with group_node:# get into the group node  
+    
         # Create Retimed A Cam
         
         refACam = nuke.createNode('Camera2')
@@ -155,17 +157,19 @@ def CameraDissolve():
 
 
         # Add all the knobs to Panel 
+        with nuke.root(): # getout to root
+            for panelKnob in panelKnobs:
+                nCamera.addKnob(panelKnob) 
         
-        for panelKnob in panelKnobs:
-            nCamera.addKnob(panelKnob) 
+        with group_node:# get in to the group node 
+            
+            for panelKnobRefACam in panelKnobs_ACam:
+                refACam.addKnob(panelKnobRefACam) 
+            
 
-        for panelKnobRefACam in panelKnobs_ACam:
-            refACam.addKnob(panelKnobRefACam) 
-        
-
-        for panelKnobRefBCam in panelKnobs_BCam:
-            refBCam.addKnob(panelKnobRefBCam) 
-        
+            for panelKnobRefBCam in panelKnobs_BCam:
+                refBCam.addKnob(panelKnobRefBCam) 
+            
 
        
 
